@@ -1,5 +1,11 @@
-package com.example.student_reg.validation;
+/*
+ * Copyright (c) 2019-2024. Luka Pavlov and others.
+ * https://github.com/sunRay52/student-registration
+ *
+ * Licensed under the Apache License 2.0
+ */
 
+package com.example.student_reg.validation;
 
 import org.springframework.stereotype.Component;
 
@@ -7,11 +13,10 @@ import java.util.Scanner;
 
 @Component
 public class Validation {
-
     private String studentStr;
 
     public String addValidation() {
-        Scanner scan = new Scanner(System.in);
+        final Scanner scan = new Scanner(System.in);
         System.out.println("Введите значение / Пример: Дмитрий; Андронников; 52");
         final String str = scan.nextLine();
         if (mainFilter(str)) {
@@ -21,7 +26,7 @@ public class Validation {
     }
 
     public long deleteValidation() {
-        Scanner scan = new Scanner(System.in);
+        final Scanner scan = new Scanner(System.in);
         System.out.println("Введите id студента / Пример: 234");
         final String str = scan.nextLine();
         if (str.trim().matches("^[0-9]+[0-9]+[0-9]+$")) {

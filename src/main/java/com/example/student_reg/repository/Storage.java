@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2019-2024. Luka Pavlov and others.
+ * https://github.com/sunRay52/student-registration
+ *
+ * Licensed under the Apache License 2.0
+ */
+
 package com.example.student_reg.repository;
 
 import com.example.student_reg.model.Student;
@@ -15,22 +22,21 @@ public class Storage {
     private Map<Long, Student> studentList;
     private Long id = 0L;
 
-    public Storage(Map<Long, Student> studentList) {
+    public Storage(final Map<Long, Student> studentList) {
         this.studentList = studentList;
     }
 
-
-    public void addStudent(Student student) {
+    public void addStudent(final Student student) {
         studentList.put(id, student);
         id++;
     }
 
-    public void deleteStudent(long id) {
+    public void deleteStudent(final long id) {
         studentList.remove(id);
     }
 
     public void checkStudentsList() {
-        for(Student student : studentList.values()) {
+        for (Student student : studentList.values()) {
             System.out.println(student.getName() + " ;" + student.getLastname() + " ;" + student.getAge());
         }
     }
@@ -40,7 +46,7 @@ public class Storage {
     }
 
     @PostConstruct
-    private void postConstruct(){
+    private void postConstruct() {
         studentList = (Map<Long, Student>) new Storage(new HashMap<>());
     }
 }

@@ -35,6 +35,21 @@ dependencies {
 	checkstyle 'com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	modules {
+		module("com.google.collections:google-collections") {
+			replacedBy("com.google.guava:guava", "google-collections is now part of Guava")
+		}
+	}
+}
+
+tasks {
+	compileJava {
+		finalizedBy(checkstyleMain)
+	}
+	compileTestJava {
+		finalizedBy(checkstyleTest)
+	}
 }
 
 dependencyManagement {

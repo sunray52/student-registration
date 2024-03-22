@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2019-2024. Luka Pavlov and others.
+ * https://github.com/sunRay52/student-registration
+ *
+ * Licensed under the Apache License 2.0
+ */
+
 package com.example.student_reg.director;
 
 import com.example.student_reg.events.ListCheckEvent;
@@ -7,7 +14,6 @@ import com.example.student_reg.events.StudentDeleteEvent;
 import com.example.student_reg.validation.Validation;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
@@ -22,8 +28,8 @@ public class Director {
     public void request() {
         System.out.println("Что вы хотите сделать ?");
         System.out.println("Добавить студента - 1 / Удалить студента - 2 / Посмотреть список студентов - 3 / Очистить список - 4");
-        Scanner scan = new Scanner(System.in);
-        String comand = scan.nextLine();
+        final Scanner scan = new Scanner(System.in);
+        final String comand = scan.nextLine();
         if ("1".equals(comand)) {
             eventPublisher.publishEvent(new StudentAddEvent(this, new Validation()));
             request();
