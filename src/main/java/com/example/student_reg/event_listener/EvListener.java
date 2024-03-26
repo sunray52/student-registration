@@ -11,7 +11,6 @@ import com.example.student_reg.events.ListCheckEvent;
 import com.example.student_reg.events.ListCleanEvent;
 import com.example.student_reg.events.StudentAddEvent;
 import com.example.student_reg.events.StudentDeleteEvent;
-import com.example.student_reg.model.Student;
 import com.example.student_reg.repository.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -25,24 +24,21 @@ public class EvListener {
 
     @EventListener(StudentAddEvent.class)
     public void onAddStudent(final StudentAddEvent event) {
-        final String studentStr = event.getStudentInfo().addValidation();
-        final String[] arr = studentStr.split(";");
-        storage.addStudent(new Student(arr[0], arr[1], Integer.parseInt(arr[2])));
+        System.out.println("Пользователь добавлен !");
     }
 
     @EventListener(StudentDeleteEvent.class)
     public void onDeleteStudent(final StudentDeleteEvent event) {
-        final long studentId = event.getStudentInfo().deleteValidation();
-        storage.deleteStudent(studentId);
+        System.out.println("Пользователь удален.");
     }
 
     @EventListener(ListCheckEvent.class)
     public void onCheckList() {
-        storage.checkStudentsList();
+        System.out.println("Только что вы проверили свой список контактов :)");
     }
 
     @EventListener(ListCleanEvent.class)
     public void onCleanList() {
-        storage.cleanStudentsList();
+        System.out.println("Теперь список числ :(");
     }
 }

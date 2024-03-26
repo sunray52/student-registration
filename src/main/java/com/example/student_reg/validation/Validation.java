@@ -7,32 +7,65 @@
 
 package com.example.student_reg.validation;
 
+import com.example.student_reg.comands.Comands;
+import jakarta.annotation.PostConstruct;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
+@Getter
+@RequiredArgsConstructor
 @Component
 public class Validation {
-    private String studentStr;
+
+    @Autowired
+    private Comands comand;
+
+    private String[] studentStrWithComand = new String[2];
 
     public String addValidation() {
         final Scanner scan = new Scanner(System.in);
         System.out.println("Введите значение / Пример: Дмитрий; Андронников; 52");
         final String str = scan.nextLine();
         if (mainFilter(str)) {
-            studentStr = str;
+            final StringBuilder newStr = new StringBuilder();
+            final String[] arr = str.split(";");
+            for (String el : arr) {
+                newStr.append(el.trim());
+            }
+            studentStrWithComand[0] = String.valueOf(newStr);
         }
-        return studentStr;
+        return studentStrWithComand[0];
     }
 
-    public long deleteValidation() {
+    public String deleteValidation() {
         final Scanner scan = new Scanner(System.in);
         System.out.println("Введите id студента / Пример: 234");
         final String str = scan.nextLine();
         if (str.trim().matches("^[0-9]+[0-9]+[0-9]+$")) {
-            studentStr = str;
+            studentStrWithComand[0] = str.trim();
         }
-        return Long.parseLong(studentStr);
+        return studentStrWithComand[0];
+    }
+
+    public void controller() {
+        if ("add".equals(comand.studentStr[0])) {
+            addValidation();
+        } else if ("delete".equals(comand.studentStr[0])) {
+            deleteValidation();
+        } else if ("checkList".equals(comand.studentStr[0])) {
+            studentStrWithComand[1] = "checkList";
+        } else if ("cleanList".equals(comand.studentStr[0])) {
+            studentStrWithComand[1] = "cleanList";
+        }
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        controller();
     }
 
     private boolean mainFilter(final String str) { // проверка ФИО / номера телефона / почты / структуры отправки (... ; ... ; ...)

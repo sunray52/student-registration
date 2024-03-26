@@ -8,23 +8,16 @@
 package com.example.student_reg.repository;
 
 import com.example.student_reg.model.Student;
-import jakarta.annotation.PostConstruct;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
-@NoArgsConstructor(force = true)
 public class Storage {
 
-    private Map<Long, Student> studentList;
+    private final Map<Long, Student> studentList = new HashMap<>();
     private Long id = 0L;
-
-    public Storage(final Map<Long, Student> studentList) {
-        this.studentList = studentList;
-    }
 
     public void addStudent(final Student student) {
         studentList.put(id, student);
@@ -43,11 +36,6 @@ public class Storage {
 
     public void cleanStudentsList() {
         studentList.clear();
-    }
-
-    @PostConstruct
-    private void postConstruct() {
-        studentList = (Map<Long, Student>) new Storage(new HashMap<>());
     }
 }
 
