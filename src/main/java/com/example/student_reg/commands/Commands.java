@@ -7,42 +7,62 @@
 
 package com.example.student_reg.commands;
 
-import com.example.student_reg.scanner.Scan;
+import com.example.student_reg.events.ListCheckEvent;
+import com.example.student_reg.events.StudentAddEvent;
+import com.example.student_reg.events.StudentDeleteEvent;
+import com.example.student_reg.model.Student;
+import com.example.student_reg.repository.Storage;
+import com.example.student_reg.validation.Validation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+
+import java.util.Scanner;
 
 @RequiredArgsConstructor
 @ShellComponent
 public class Commands {
+    // autowired убрать
+    private final Scanner scanner;
 
-    @Autowired
-    private final Scan sc;
+    private final Validation validation;
 
-    public String[] studentStr;
+    private final Storage storage;
+
+    private final ApplicationEventPublisher eventPublisher;
+
+    //TODO: сделать команд шел основным инструментом действия / все методы вызываются тут
 
     @ShellMethod(key = "add", value = "adding a student")
     public void addStudent() {
         System.out.println("Введите значение / Пример: Дмитрий; Андронников; 52");
-        final String str = sc.scanner.nextLine();
-        studentStr = new String[]{"add", str};
+        System.out.println(Thread.currentThread().getName());
+        final String str = scanner.nextLine();
+        final String newStr = validation.addValidation(str);
+        final String[] arr = newStr.split(";");
+        Student student = new Student(arr[0].trim(), arr[1].trim(), Integer.parseInt(arr[2].trim()));
+        storage.addStudent(student);
+        eventPublisher.publishEvent(new StudentAddEvent(this, student));
     }
 
     @ShellMethod(key = "delete", value = "deleting a student")
     public void deleteStudent() {
         System.out.println("Введите id студента / Пример: 234");
-        final String str = sc.scanner.nextLine();
-        studentStr = new String[]{"delete", str};
+        final String str = scanner.nextLine();
+        long id = validation.deleteValidation(str);
+        storage.deleteStudent(id);
+        eventPublisher.publishEvent(new StudentDeleteEvent(this, id));
     }
 
     @ShellMethod(key = "check", value = "check the contact list")
-    public void checkStudentList() {
-        studentStr = new String[]{"checkList", ""};
+    public void checkList() {
+        storage.checkStudentsList();
+        eventPublisher.publishEvent(new ListCheckEvent(this));
     }
 
     @ShellMethod(key = "clean", value = "clear the contact list")
-    public void cleanStudentList() {
-        studentStr = new String[]{"cleanList", ""};
+    public void cleanList() {
+        storage.cleanStudentsList();
     }
 }

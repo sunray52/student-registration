@@ -13,7 +13,10 @@ import org.springframework.context.ApplicationEvent;
 @Getter
 public class StudentDeleteEvent extends ApplicationEvent {
 
-    public StudentDeleteEvent(final Object source) {
+    private final long id;
+
+    public StudentDeleteEvent(final Object source, long id) {
         super(source);
+        this.id = id;
     }
 }

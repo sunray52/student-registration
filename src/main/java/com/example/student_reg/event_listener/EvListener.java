@@ -11,25 +11,23 @@ import com.example.student_reg.events.ListCheckEvent;
 import com.example.student_reg.events.ListCleanEvent;
 import com.example.student_reg.events.StudentAddEvent;
 import com.example.student_reg.events.StudentDeleteEvent;
-import com.example.student_reg.repository.Storage;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-
+@RequiredArgsConstructor
 @Component
 public class EvListener {
 
-    @Autowired
-    private Storage storage;
-
     @EventListener(StudentAddEvent.class)
     public void onAddStudent(final StudentAddEvent event) {
-        System.out.println("Пользователь добавлен !");
+        System.out.println(Thread.currentThread().getName());
+        System.out.println("Пользователь добавлен !" + event.getStudent());
     }
 
     @EventListener(StudentDeleteEvent.class)
     public void onDeleteStudent(final StudentDeleteEvent event) {
-        System.out.println("Пользователь удален.");
+        System.out.println("Пользователь c id " + event.getId() + "удален");
     }
 
     @EventListener(ListCheckEvent.class)

@@ -7,60 +7,26 @@
 
 package com.example.student_reg.validation;
 
-import com.example.student_reg.commands.Commands;
-import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Scanner;
-
-@Getter
-
+//getter & setter не должно быть
+@RequiredArgsConstructor
 @Component
 public class Validation {
 
-    @Autowired
-    private Commands command;
-
-    private final String[] studentStrWithComand = new String[2];
-
-    public Validation(Commands command) {
-        this.command = command;
-        controller(this.command);
-    }
-
-    public void addValidation() {
-        final Scanner scan = new Scanner(System.in);
-        System.out.println("Введите значение / Пример: Дмитрий; Андронников; 52");
-        final String str = scan.nextLine();
+    public String addValidation(String str) {
         if (mainFilter(str)) {
-            final StringBuilder newStr = new StringBuilder();
-            final String[] arr = str.split(";");
-            for (String el : arr) {
-                newStr.append(el.trim());
-            }
-            studentStrWithComand[0] = String.valueOf(newStr);
+            return str;
         }
+        throw new RuntimeException("Вы ошиблись при вводе данных");
     }
 
-    public void deleteValidation() {
-        final Scanner scan = new Scanner(System.in);
-        System.out.println("Введите id студента / Пример: 234");
-        final String str = scan.nextLine();
+    public long deleteValidation(String str) {
         if (str.trim().matches("^[0-9]+[0-9]+[0-9]+$")) {
-            studentStrWithComand[0] = str.trim();
+            return Long.parseLong(str.trim());
         }
-    }
-    public void controller(Commands command) {
-        if ("add".equals(command.studentStr[0])) {
-            addValidation();
-        } else if ("delete".equals(command.studentStr[0])) {
-            deleteValidation();
-        } else if ("checkList".equals(command.studentStr[0])) {
-            studentStrWithComand[1] = "checkList";
-        } else if ("cleanList".equals(command.studentStr[0])) {
-            studentStrWithComand[1] = "cleanList";
-        }
+        throw new RuntimeException("Вы ошиблись при вводе id");
     }
 
     private boolean mainFilter(final String str) { // проверка ФИО / номера телефона / почты / структуры отправки (... ; ... ; ...)

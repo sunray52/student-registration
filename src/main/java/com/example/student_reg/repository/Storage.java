@@ -10,18 +10,18 @@ package com.example.student_reg.repository;
 import com.example.student_reg.model.Student;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Component
 public class Storage {
 
-    private final Map<Long, Student> studentList = new HashMap<>();
-    private Long id = 0L;
+    private final ConcurrentMap<Long, Student> studentList = new ConcurrentHashMap<>();
+    private final AtomicLong id = new AtomicLong();
 
     public void addStudent(final Student student) {
-        studentList.put(id, student);
-        id++;
+        studentList.put(id.incrementAndGet(), student);
     }
 
     public void deleteStudent(final long id) {
