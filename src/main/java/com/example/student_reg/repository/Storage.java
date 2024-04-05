@@ -34,6 +34,10 @@ public class Storage {
         }
     }
 
+    public int size() {
+        return studentList.size();
+    }
+
     public void cleanStudentsList() {
         studentList.clear();
     }

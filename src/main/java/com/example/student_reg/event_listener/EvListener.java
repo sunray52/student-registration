@@ -11,10 +11,10 @@ import com.example.student_reg.events.ListCheckEvent;
 import com.example.student_reg.events.ListCleanEvent;
 import com.example.student_reg.events.StudentAddEvent;
 import com.example.student_reg.events.StudentDeleteEvent;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+
 @RequiredArgsConstructor
 @Component
 public class EvListener {

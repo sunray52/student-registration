@@ -7,22 +7,24 @@
 
 package com.example.student_reg.validation;
 
+import com.google.common.base.Splitter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-//getter & setter не должно быть
+import java.util.List;
+
 @RequiredArgsConstructor
 @Component
 public class Validation {
 
-    public String addValidation(String str) {
+    public String addValidation(final String str) {
         if (mainFilter(str)) {
             return str;
         }
         throw new RuntimeException("Вы ошиблись при вводе данных");
     }
 
-    public long deleteValidation(String str) {
+    public long deleteValidation(final String str) {
         if (str.trim().matches("^[0-9]+[0-9]+[0-9]+$")) {
             return Long.parseLong(str.trim());
         }
@@ -30,22 +32,22 @@ public class Validation {
     }
 
     private boolean mainFilter(final String str) { // проверка ФИО / номера телефона / почты / структуры отправки (... ; ... ; ...)
-        final String[] arr = str.split(";");
+        final List<String> arr = Splitter.on(';').splitToList(str);
         int count = 0;
 
-        if (arr.length != 3) { // проверка структуры отправки (... ; ... ; ...)
+        if (arr.size() != 3) { // проверка структуры отправки (... ; ... ; ...)
             System.out.println("Вы ошиблись с кол-во полей");
             count++;
         }
-        if (arr[0].trim().split(" ").length != 1) { // проверка ФИО
+        if (arr.get(0).trim().split(" ").length != 1) { // проверка ФИО
             System.out.println("Вы ошиблись в Имени");
             count++;
         }
-        if (arr[1].trim().split(" ").length != 1) { // проверка ФИО
+        if (arr.get(1).trim().split(" ").length != 1) { // проверка ФИО
             System.out.println("Вы ошиблись в Фамилии");
             count++;
         }
-        if (arr[2].trim().matches("^[0-9]+[0-9]+[0-9]+$")) { // проверка почты
+        if (arr.get(2).trim().matches("^[0-9]+[0-9]+[0-9]+$")) { // проверка почты
             System.out.println("Вы ошиблись в возрасте");
             count++;
         }

@@ -15,7 +15,7 @@ public class StudentDeleteEvent extends ApplicationEvent {
 
     private final long id;
 
-    public StudentDeleteEvent(final Object source, long id) {
+    public StudentDeleteEvent(final Object source, final long id) {
         super(source);
         this.id = id;
     }
