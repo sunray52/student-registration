@@ -8,6 +8,7 @@
 package com.example.student_reg.controller;
 
 import com.example.student_reg.events.ListCheckEvent;
+import com.example.student_reg.events.ListCleanEvent;
 import com.example.student_reg.events.StudentAddEvent;
 import com.example.student_reg.events.StudentDeleteEvent;
 import com.example.student_reg.model.Student;
@@ -64,6 +65,7 @@ public class Controller {
     @ShellMethod(key = "clean", value = "clear the contact list")
     public void cleanList() {
         storage.cleanStudentsList();
+        eventPublisher.publishEvent(new ListCleanEvent(this));
     }
 
     public String lineRequest() {

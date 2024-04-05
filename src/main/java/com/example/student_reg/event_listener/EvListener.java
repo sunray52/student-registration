@@ -22,12 +22,12 @@ public class EvListener {
     @EventListener(StudentAddEvent.class)
     public void onAddStudent(final StudentAddEvent event) {
         System.out.println(Thread.currentThread().getName());
-        System.out.println("Пользователь добавлен !" + event.getStudent());
+        System.out.println("Пользователь добавлен ! " + event.getStudent());
     }
 
     @EventListener(StudentDeleteEvent.class)
     public void onDeleteStudent(final StudentDeleteEvent event) {
-        System.out.println("Пользователь c id " + event.getId() + "удален");
+        System.out.println("Пользователь c id " + event.getId() + " удален");
     }
 
     @EventListener(ListCheckEvent.class)

@@ -21,7 +21,9 @@ public class Storage {
     private final AtomicLong id = new AtomicLong();
 
     public void addStudent(final Student student) {
-        studentList.put(id.incrementAndGet(), student);
+        if (!studentList.containsValue(student)) {
+            studentList.put(id.incrementAndGet(), student);
+        }
     }
 
     public void deleteStudent(final long id) {
@@ -30,7 +32,7 @@ public class Storage {
 
     public void checkStudentsList() {
         for (Student student : studentList.values()) {
-            System.out.println(student.getName() + " ;" + student.getLastname() + " ;" + student.getAge());
+            System.out.println(student.getName() + "; " + student.getLastname() + "; " + student.getAge());
         }
     }
 
