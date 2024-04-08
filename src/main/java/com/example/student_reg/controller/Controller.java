@@ -14,13 +14,12 @@ import com.example.student_reg.events.StudentDeleteEvent;
 import com.example.student_reg.model.Student;
 import com.example.student_reg.repository.Storage;
 import com.example.student_reg.validation.Validation;
-import com.google.common.base.Splitter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
-import java.util.List;
+
 import java.util.Scanner;
 
 @RequiredArgsConstructor
@@ -41,8 +40,8 @@ public class Controller {
         System.out.println(Thread.currentThread().getName());
         final String str = scanner.nextLine();
         final String newStr = validation.addValidation(str);
-        final List<String> arr = Splitter.on(';').splitToList(newStr);
-        final Student student = new Student(arr.get(0).trim(), arr.get(1).trim(), Integer.parseInt(arr.get(2).trim()));
+        final String[] arr = newStr.split(";");
+        final Student student = new Student(arr[0].trim(), arr[1].trim(), Integer.parseInt(arr[2].trim()));
         storage.addStudent(student);
         eventPublisher.publishEvent(new StudentAddEvent(this, student));
     }

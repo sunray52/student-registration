@@ -20,14 +20,14 @@ public class Storage {
     private final ConcurrentMap<Long, Student> studentList = new ConcurrentHashMap<>();
     private final AtomicLong id = new AtomicLong();
 
-    public void addStudent(final Student student) {
-        if (!studentList.containsValue(student)) {
-            studentList.put(id.incrementAndGet(), student);
-        }
+    public long addStudent(final Student student) {
+        final long studentId = id.incrementAndGet();
+        studentList.put(studentId, student);
+        return studentId;
     }
 
-    public void deleteStudent(final long id) {
-        studentList.remove(id);
+    public Student deleteStudent(final long id) {
+        return studentList.remove(id);
     }
 
     public void checkStudentsList() {

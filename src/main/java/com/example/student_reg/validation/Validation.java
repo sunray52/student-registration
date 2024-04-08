@@ -7,11 +7,8 @@
 
 package com.example.student_reg.validation;
 
-import com.google.common.base.Splitter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -32,22 +29,22 @@ public class Validation {
     }
 
     private boolean mainFilter(final String str) { // проверка ФИО / номера телефона / почты / структуры отправки (... ; ... ; ...)
-        final List<String> arr = Splitter.on(';').splitToList(str);
+        final String[] arr = str.split(";");
         int count = 0;
 
-        if (arr.size() != 3) { // проверка структуры отправки (... ; ... ; ...)
+        if (arr.length != 3) { // проверка структуры отправки (... ; ... ; ...)
             System.out.println("Вы ошиблись с кол-во полей");
             count++;
         }
-        if (arr.get(0).trim().split(" ").length != 1) { // проверка ФИО
+        if (arr[0].trim().split(" ").length != 1) { // проверка ФИО
             System.out.println("Вы ошиблись в Имени");
             count++;
         }
-        if (arr.get(1).trim().split(" ").length != 1) { // проверка ФИО
+        if (arr[1].trim().split(" ").length != 1) { // проверка ФИО
             System.out.println("Вы ошиблись в Фамилии");
             count++;
         }
-        if (arr.get(2).trim().matches("^[0-9]+[0-9]+[0-9]+$")) { // проверка почты
+        if (arr[2].trim().matches("^[0-9]+[0-9]+[0-9]+$")) { // проверка почты
             System.out.println("Вы ошиблись в возрасте");
             count++;
         }
