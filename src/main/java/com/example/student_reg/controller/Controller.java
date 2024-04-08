@@ -19,7 +19,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
-
 import java.util.Scanner;
 
 @RequiredArgsConstructor
@@ -35,24 +34,26 @@ public class Controller {
     private final ApplicationEventPublisher eventPublisher;
 
     @ShellMethod(key = "add", value = "adding a student")
-    public void addStudent() {
+    public long addStudent() {
         System.out.println("Введите значение / Пример: Дмитрий; Андронников; 52");
         System.out.println(Thread.currentThread().getName());
         final String str = scanner.nextLine();
         final String newStr = validation.addValidation(str);
         final String[] arr = newStr.split(";");
         final Student student = new Student(arr[0].trim(), arr[1].trim(), Integer.parseInt(arr[2].trim()));
-        storage.addStudent(student);
+        final long lastStudentid = storage.addStudent(student);
         eventPublisher.publishEvent(new StudentAddEvent(this, student));
+        return lastStudentid;
     }
 
     @ShellMethod(key = "delete", value = "deleting a student")
-    public void deleteStudent() {
+    public Student deleteStudent() {
         System.out.println("Введите id студента / Пример: 234");
         final String str = scanner.nextLine();
         final long id = validation.deleteValidation(str);
-        storage.deleteStudent(id);
+        final Student lastDeletedStudent = storage.deleteStudent(id);
         eventPublisher.publishEvent(new StudentDeleteEvent(this, id));
+        return lastDeletedStudent;
     }
 
     @ShellMethod(key = "check", value = "check the contact list")

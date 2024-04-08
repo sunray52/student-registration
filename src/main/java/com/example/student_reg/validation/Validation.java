@@ -17,12 +17,13 @@ public class Validation {
     public String addValidation(final String str) {
         if (mainFilter(str)) {
             return str;
+        } else {
+            throw new RuntimeException("Вы ошиблись при вводе данных");
         }
-        throw new RuntimeException("Вы ошиблись при вводе данных");
     }
 
     public long deleteValidation(final String str) {
-        if (str.trim().matches("^[0-9]+[0-9]+[0-9]+$")) {
+        if (str.trim().matches("^[0-9]+$")) {
             return Long.parseLong(str.trim());
         }
         throw new RuntimeException("Вы ошиблись при вводе id");

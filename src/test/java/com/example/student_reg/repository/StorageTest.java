@@ -19,13 +19,16 @@ class StorageTest {
     void shouldAddStudent() {
         final Storage storage = new Storage();
 
-        Assertions.assertEquals(0, storage.size());
+        assertThat(storage.size())
+                .isEqualTo(0);
 
-        long result = storage.addStudent(new Student("Дмитрий", "Андронников", 52));
+        final long result = storage.addStudent(new Student("Дмитрий", "Андронников", 52));
 
-        Assertions.assertEquals(1, storage.size());
+        assertThat(storage.size())
+                .isEqualTo(1);
 
-        Assertions.assertEquals(1, result);
+        assertThat(result)
+                .isEqualTo(1);
     }
 
     @Test
@@ -33,12 +36,13 @@ class StorageTest {
         final Storage storage = new Storage();
 
         storage.addStudent(new Student("Дмитрий", "Андронников", 52));
-        long resultId = storage.addStudent(new Student("Андрей", "Маликов", 21));
+        final long resultId = storage.addStudent(new Student("Андрей", "Маликов", 21));
         storage.addStudent(new Student("Максим", "Галкин", 23));
 
-        Student student = storage.deleteStudent(resultId);
+        final Student student = storage.deleteStudent(resultId);
 
-        Assertions.assertEquals(2, storage.size());
+        assertThat(storage.size())
+                .isEqualTo(2);
 
         assertThat(student)
                 .isNotNull()

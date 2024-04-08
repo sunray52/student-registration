@@ -7,6 +7,7 @@
 
 package com.example.student_reg.controller;
 
+import com.example.student_reg.model.Student;
 import com.example.student_reg.repository.Storage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,26 +41,29 @@ public class ControllerTest {
 
         controller.addStudent();
 
+        assertThat(storage.size())
+                .as("size after additions")
+                .isEqualTo(1);
+    }
+
+    @Test
+    public void shouldDeleteStudentCorrectly() {
+        final Student testStudent = new Student("Дмитрий","Андронников",52);
+        final long lastStudentId = storage.addStudent(testStudent);
 
         assertThat(storage.size())
                 .isEqualTo(1);
 
+        Mockito.when(scanner.nextLine()).thenReturn(String.valueOf(lastStudentId));
+
+        final Student lastDeletedStudent = controller.deleteStudent();
+
+        assertThat(storage.size())
+                .as("size after deletion")
+                .isEqualTo(0);
+
+        assertThat(lastDeletedStudent)
+                .isNotNull()
+                .isEqualTo(testStudent);
     }
 }
-
-//    @Test
-//    public void shouldDeleteStudentCorrectly() {
-//        verify(storage).addStudent(
-//                new Student("Дмитрий", "Андронников", 52)
-//        );
-//
-//        final String id = "1 ";
-//        Mockito.when(scanner.nextLine()).thenReturn(id);
-//
-//        verify(controller).deleteStudent();
-//
-//        final int checkSize = verify(storage).size();
-//
-//        Assertions.assertEquals(0, checkSize);
-//    }
-//}
